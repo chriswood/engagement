@@ -12,9 +12,20 @@
     <tr>
         <td><img src='/site_media/rings.png' alt='rings' /></td>
     </tr>
-    <tr><td>&nbsp;</td></tr>
+    <tr><td>{{ debug }}</td></tr>
     <tr>
-        <td><img src="{{ chart_url }}" width="800" height="360" alt="I'm in ur response, analysing your d00ds/>
+        <td><img src="{{ chart_url }}" width="800" height="360" alt="I'm in ur response, analysing your d00ds"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Current Event options: opens, clicks, forwards, shares</td>
+    </tr>
+    <tr>
+        <td>
+            <form action="{{ post_url }}" method="post" id='weights'>
+                {{ form.as_p }}
+                <input type="submit" value="Update" />
+            </form>
         </td>
     </tr>
 </table>

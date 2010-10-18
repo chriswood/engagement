@@ -36,5 +36,36 @@ def EE_convert(number):
         encoded_num = EXTENDED_MAP[quotient] + EXTENDED_MAP[remainder]
 
     return encoded_num
+    
+def get_user_data(events, users):
+    '''
+        Stubbed in function to represent the returned data for a set of events.
+        Given a set of events, and a set of users, this should return
+        a matrix of dimension (len(events), len(users)) implemented via a list
+        of tuples.
+'''
+    response_data = [
+        [(1,1,1,1), (1,1,1,1), (1,1,1,1), (1,1,1,1), (1,1,1,1)],
+        [(0,0,0,0), (1,0,0,0), (0,0,0,0), (0,0,0,0), (0,0,0,0)],
+        [(1,1,0,0), (1,0,1,0), (1,1,1,0), (0,0,0,0), (0,0,0,0)],
+        [(1,0,0,1), (1,0,0,1), (1,0,0,0), (1,0,0,1), (1,0,0,0)],
+        [(0,0,0,0), (0,0,0,0), (0,0,0,0), (1,1,1,0), (1,1,1,0)],
+    ]
+    return(response_data)
+    
+def get_users(event_count):
+    '''
+        stubbed in to set up users whose response data we want
+    '''
+    return('|'.join(['user%s' %(str(x)) for x in range(1, event_count + 1)]))
+    
+def format_data(data):
+    """
+        takes the dictionary from returned response data and
+        formats it for google chart usage
+    """
+    return data
+    
+
 
    

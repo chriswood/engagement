@@ -32,6 +32,6 @@ class CriteriaBuild:
         
     def _build_normalized_data(self, criteria):
         for crit in criteria:
-            n_value = round(float(criteria[crit])/float(self.weight_total), self.accuracy)
+            n_value = round(float(criteria[crit])/float(self.weight_total) * 100, self.accuracy)
             #self.data.append({crit : n_value})
             self.data[crit] = n_value
