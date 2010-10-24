@@ -19,6 +19,7 @@ def engagement(request):
             criteria = {}
             crit_list = []
             users_count = form.cleaned_data['number_of_users']
+            scale = form.cleaned_data['scale']
             
             #put together criteria from form
             for element in form.cleaned_data:
@@ -34,27 +35,30 @@ def engagement(request):
                     
             #Now I need the data for the requested number of users
             user_data = get_user_data(crit_list, users_count)
-            print(user_data)
-
+            user_list = user_data.keys()
             #now we have each user's data in the proper format
             #each tuple is ordered according to the event list
-            response = CriteriaBuild(criteria)
+            response = CriteriaBuild(criteria, scale)
             print('Normalized data')
             print(response.data)
-            print('generate score...')
-            response.generate_score(crit_list, user_data)
-
+            # print('generate score...')
+            # response.generate_score(crit_list, user_data)
+            
+            #do some formatting for the google chart...
+            
+            response.build_chart_values(user_list, crit_list, user_data)
+            users = '|'.join(user_list)
             #the build_chart method will handle any legit keyword for the given chart type
             kwargs = {
                 'chf' : 'c,lg,0,EFEFEF,0,BBBBBB,1', #chart_colors
                 'chxt' : 'x,y', #visible_axis
-                'chxl' : '1:|%s' %(get_users(users_count)), #user labels
+                'chxl' : '1:|%s' %(response.users), #user labels
                 'chbh' : 'a', #bar_width
                 'chs' : '800x360', #chart_size
                 'cht' : 'bhs', #chart_type
                 'chco' : '80C65A,0F9E00,2C58C6,FF3030', #colors
-                'chd' : 'e:MzHCHCMzGZ,DMJmHCGZTM,GZMzDMGZFH,FHHrPWI9Fw', #data
-                'chdl' : 'opens|clicks|forwards|shares', #labels
+                'chd' : 'e:%s' %(response.encoded_str), #data
+                'chdl' : response.crit, #labels
                 'chtt' : "Im in ur post analysing your d00ds", #title
                 'chts' : '676767,19.5', #style
             }
@@ -64,12 +68,11 @@ def engagement(request):
     else: #not post
         form = EngagementForm() 
         kwargs = default_chart()
-
+    print(build_chart(**kwargs))
     context = {
         'chart_url' : build_chart(**kwargs),
         'form' : form,
         'post_url' : '/engagement/',
-        'debug' : kwargs['chd'],
     }
     
     return render_to_response('main.html', context,

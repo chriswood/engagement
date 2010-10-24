@@ -1,4 +1,6 @@
 from urllib import urlencode
+from math import floor
+import string
 
 def build_chart(**kwargs):
     """
@@ -45,13 +47,14 @@ def get_user_data(events, user_count):
         stores whether they performed a particular criteria. The order of these will be determined
         by the events list. The query will probably want to return top or bottom users
     '''
-
+    #{'forwards', 'opens', 'shares', 'clicks'}
+    
     return {
         'user1' : [(1,1,1,1), (1,1,1,1), (1,1,1,1), (1,1,1,1), (1,1,1,1)],
-        'user2' : [(0,0,0,0), (1,0,0,0), (0,0,0,0), (0,0,0,0), (0,0,0,0)],
+        'user2' : [(1,0,0,0), (1,0,0,0), (1,0,0,0), (1,0,0,0), (1,0,0,0)],
         'user3' : [(1,1,0,0), (1,0,1,0), (1,1,1,0), (0,0,0,0), (0,0,0,0)],
         'user4' : [(1,0,0,1), (1,0,0,1), (1,0,0,0), (1,0,0,1), (1,0,0,0)],
-        'user5' : [(0,0,0,0), (0,0,0,0), (0,0,0,0), (1,1,1,0), (1,1,1,0)],
+        'user5' : [(0,1,0,0), (0,1,0,0), (0,1,0,0), (1,1,1,0), (1,1,1,0)],
     }
     
 def get_users(user_count):
@@ -75,7 +78,7 @@ def default_chart():
     return {
         'chf' : 'c,lg,0,EFEFEF,0,BBBBBB,1', #chart_colors
         'chxt' : 'x,y', #visible_axis
-        'chxl' : '1:|User1|User2|User3|User4|User5', #y axis
+        'chxl' : '1:|Colt|Howie|Terry|Jodie|Chevy', #y axis
         'chbh' : 'a', #bar_width
         'chs' : '800x360', #chart_size
         'cht' : 'bhs', #chart_type
