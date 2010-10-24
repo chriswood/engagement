@@ -1,4 +1,5 @@
 from urllib import urlencode
+
 def build_chart(**kwargs):
     """
         Allows you to pass in any arguments supported by google in a dictionary
@@ -37,27 +38,27 @@ def EE_convert(number):
 
     return encoded_num
     
-def get_user_data(events, users):
+def get_user_data(events, user_count):
     '''
-        Stubbed in function to represent the returned data for a set of events.
-        Given a set of events, and a set of users, this should return
-        a matrix of dimension (len(events), len(users)) implemented via a list
-        of tuples.
-'''
-    response_data = [
-        [(1,1,1,1), (1,1,1,1), (1,1,1,1), (1,1,1,1), (1,1,1,1)],
-        [(0,0,0,0), (1,0,0,0), (0,0,0,0), (0,0,0,0), (0,0,0,0)],
-        [(1,1,0,0), (1,0,1,0), (1,1,1,0), (0,0,0,0), (0,0,0,0)],
-        [(1,0,0,1), (1,0,0,1), (1,0,0,0), (1,0,0,1), (1,0,0,0)],
-        [(0,0,0,0), (0,0,0,0), (0,0,0,0), (1,1,1,0), (1,1,1,0)],
-    ]
-    return(response_data)
+        This represents returned data. for each user, you have a list of tuples.
+        Each tuple represents some event (mailing for instance). Each item in the tuple
+        stores whether they performed a particular criteria. The order of these will be determined
+        by the events list. The query will probably want to return top or bottom users
+    '''
+
+    return {
+        'user1' : [(1,1,1,1), (1,1,1,1), (1,1,1,1), (1,1,1,1), (1,1,1,1)],
+        'user2' : [(0,0,0,0), (1,0,0,0), (0,0,0,0), (0,0,0,0), (0,0,0,0)],
+        'user3' : [(1,1,0,0), (1,0,1,0), (1,1,1,0), (0,0,0,0), (0,0,0,0)],
+        'user4' : [(1,0,0,1), (1,0,0,1), (1,0,0,0), (1,0,0,1), (1,0,0,0)],
+        'user5' : [(0,0,0,0), (0,0,0,0), (0,0,0,0), (1,1,1,0), (1,1,1,0)],
+    }
     
-def get_users(event_count):
+def get_users(user_count):
     '''
         stubbed in to set up users whose response data we want
     '''
-    return('|'.join(['user%s' %(str(x)) for x in range(1, event_count + 1)]))
+    return('|'.join(['user%s' %(str(x)) for x in range(1, user_count + 1)]))
     
 def format_data(data):
     """
@@ -66,6 +67,24 @@ def format_data(data):
     """
     return data
     
+def default_chart():
+    """
+        This should be something fancy looking to show when there is no
+        available data or to give the user an idea of what this is about.
+    """
+    return {
+        'chf' : 'c,lg,0,EFEFEF,0,BBBBBB,1', #chart_colors
+        'chxt' : 'x,y', #visible_axis
+        'chxl' : '1:|User1|User2|User3|User4|User5', #y axis
+        'chbh' : 'a', #bar_width
+        'chs' : '800x360', #chart_size
+        'cht' : 'bhs', #chart_type
+        'chco' : '80C65A,0F9E00,2C58C6,FF3030', #colors
+        'chd' : 'e:MzHCHCMzGZ,DMJmHCGZTM,GZMzDMGZFH,FHHrPWI9Fw', #data
+        'chdl' : 'opens|clicks|forwards|shares', #labels
+        'chtt' : "Im in ur response analysing your d00ds", #title
+        'chts' : '676767,19.5', #style
+    }
 
 
    

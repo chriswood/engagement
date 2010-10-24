@@ -3,14 +3,15 @@ import os
     
 class CriteriaBuild:
     '''
-        Take a 2 dimensional array of criteria with weights
+        Takes a 2 dimensional array of criteria with weights
         ('opens' => 20, 'clicks' => 30, 'shares' => 10)
-        calculate the total of the weights
+        calculate the total of the weights,
         normalize and generate the corresponding values
     '''
     def __init__(self, criteria):
         self.weight_total = 0
         self.data = {}
+        self.scores = {}
         self.accuracy = 2
         
         print('Your given criteria are')
@@ -22,16 +23,26 @@ class CriteriaBuild:
         print('Normalizing....')
         self._build_normalized_data(criteria)
         
-    def generate_score(self, user_data):
-        score = 0
-        for event_response in user_data:
-            score += self.data['clicks'] * event_response[0]
-            score += self.data['opens'] * event_response[1]
-            score += self.data['shares'] * event_response[2]
-        return(score)
+    def generate_score(self, crit_list, user_data):
+        """
+            Returns a dictionary of users and their corresponding scores
+            for the given data set.
+        """
+        for user in user_data:
+            score = 0
+            for resp_tuple in user_data[user]:
+                for order, crit in enumerate(crit_list):
+                    score += self.data[crit] * resp_tuple[order]
+            #We have the total for each event. We could weight each event as well,
+            #for now they are all even.
+            score = round(score/float(len(resp_list)), self.accuracy)
+                
+            self.scores[user] = score
         
     def _build_normalized_data(self, criteria):
         for crit in criteria:
-            n_value = round(float(criteria[crit])/float(self.weight_total) * 100, self.accuracy)
-            #self.data.append({crit : n_value})
+            try:
+                n_value = round(float(criteria[crit])/float(self.weight_total) * 100, self.accuracy)
+            except ZeroDivisionError, e: #only chuck norris
+                n_value = 0
             self.data[crit] = n_value
